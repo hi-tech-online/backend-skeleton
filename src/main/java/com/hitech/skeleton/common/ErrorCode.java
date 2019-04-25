@@ -2,6 +2,7 @@ package com.hitech.skeleton.common;
 
 /**
  * @author Steven
+ * @date 2019-04-25
  */
 public enum ErrorCode {
 
