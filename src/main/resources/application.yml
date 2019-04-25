@@ -1,0 +1,50 @@
+server:
+  port: 8080
+  servlet.context-path: /
+
+  # 开启 HTTPS 支持，首先应创建 keystore: keytool -keystore mykeys.jks -genkey -alias tomcat -keyalg RSA
+#  ssl:
+#    key-store: classpath:mykeys.jks
+#    key-store-password: spring
+#    key-password: spring
+
+
+# 日志
+logging:
+  level:
+    root: INFO
+    com.hitech.wechat.api.demo: DEBUG
+
+spring:
+  datasource:
+    dynamic:
+      primary: base # 默认数据源
+      datasource:
+        base:
+          username: uop_base
+          password: 20190422
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://39.106.228.124:3306/base?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+        ins:
+          username: uop_ins
+          password: 20190422
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://39.106.228.124:3306/ins?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+
+  # thymeleaf 模板配置
+#  thymeleaf.prefix: classpath:/templates/
+#  thymeleaf.suffix: .html
+#  thymeleaf.mode: HTML
+#  thymeleaf.encoding: UTF-8
+#  thymeleaf.cache: false
+
+  resources.chain.strategy.content.enabled: true
+  resources.chain.strategy.content.paths: /**
+
+  jackson.date-format: yyyy-MM-dd HH:mm:ss
+  jackson.time-zone: Asia/Shanghai
+  jackson.default-property-inclusion: non_null
+
+rest:
+  api:
+    prefix: /api/v1.1
