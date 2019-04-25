@@ -141,6 +141,8 @@ public class MySQLGenerator {
         strategy.setSuperEntityColumns("id");
         strategy.setControllerMappingHyphenStyle(true);
         strategy.setTablePrefix(packageConfig.getModuleName() + "_");
+        strategy.setEntityTableFieldAnnotationEnable(true);
+
 
         TemplateConfig templateConfig = new TemplateConfig();
         templateConfig.setController("/automatically/controller.java");
