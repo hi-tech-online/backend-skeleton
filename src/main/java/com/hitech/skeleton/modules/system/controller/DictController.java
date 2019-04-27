@@ -32,9 +32,8 @@ public class DictController {
     private IDictService dictServiceImpl;
 
     @GetMapping("list")
-    public IResult list() {
-        List<Dict> depts = dictServiceImpl.list();
-        return Result.success(depts);
+    public List<Dict> list() {
+        return dictServiceImpl.list();
     }
 
     @GetMapping("{id}")

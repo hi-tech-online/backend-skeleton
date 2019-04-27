@@ -1,17 +1,14 @@
 package com.hitech.skeleton.modules.system.controller;
 
+import com.hitech.skeleton.annotation.RestResult;
+import com.hitech.skeleton.common.IResult;
 import com.hitech.skeleton.common.Result;
 import com.hitech.skeleton.modules.system.entity.po.Dept;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.beans.factory.annotation.Autowired;
-import lombok.extern.slf4j.Slf4j;
-
-import com.hitech.skeleton.common.IResult;
 import com.hitech.skeleton.modules.system.service.IDeptService;
-
-import org.springframework.web.bind.annotation.RestController;
+import com.hitech.skeleton.utils.ValidationUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,23 +25,32 @@ import java.util.List;
 @RequestMapping("/api/system/dept")
 public class DeptController {
 
+    private static final String ENTITY_NAME = "dept";
+
     @Autowired
     private IDeptService deptServiceImpl;
 
     @GetMapping("list")
-    public IResult list() {
-        List<Dept> depts = deptServiceImpl.list();
-        return Result.success(depts);
+    @RestResult
+    public List<Dept> list() {
+        return deptServiceImpl.list();
+    }
+
+    @GetMapping("list2")
+    public List<Dept> list2() {
+        return deptServiceImpl.list();
     }
 
     @GetMapping("{id}")
-    public IResult getById(Long id) {
-        return null;
+    @RestResult
+    public Dept getById(Long id) {
+        return deptServiceImpl.getById(id);
     }
 
     @DeleteMapping("{id}")
-    public IResult removeById(Long id) {
-        return null;
+    @RestResult
+    public Boolean removeById(Long id) {
+        return deptServiceImpl.removeById(id);
     }
 
 }

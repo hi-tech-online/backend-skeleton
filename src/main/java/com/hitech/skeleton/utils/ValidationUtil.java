@@ -1,12 +1,24 @@
 package com.hitech.skeleton.utils;
 
-import com.hitech.skeleton.exception.AlreadyExistException;
-import com.hitech.skeleton.exception.NotFoundException;
+import com.hitech.skeleton.exception.cases.AlreadyExistException;
+import com.hitech.skeleton.exception.cases.NotFoundException;
+
+import static com.hitech.skeleton.exception.ErrorKind.ALREADY_EXIST;
+import static com.hitech.skeleton.exception.ErrorKind.NOT_FOUND;
 
 /**
  * @author Steven
  */
 public final class ValidationUtil {
+
+    public static void isNotFound(Boolean b, String entity, String parameter, Object value) {
+        if (!b) {
+            String msg = entity
+                + " is not found! "
+                + "{ " + parameter + ":" + value.toString() + " }";
+            throw new NotFoundException(msg, NOT_FOUND.getCode());
+        }
+    }
 
     /**
      * 判断是否找不到
@@ -21,7 +33,7 @@ public final class ValidationUtil {
             String msg = entity
                     + " is not found! "
                     + "{ " + parameter + ":" + value.toString() + " }";
-            throw new NotFoundException(msg, 404);
+            throw new NotFoundException(msg, NOT_FOUND.getCode());
         }
     }
 
@@ -38,7 +50,7 @@ public final class ValidationUtil {
             String msg = entity
                     + " is not found! "
                     + "{ " + parameter + ":" + value.toString() + " }";
-            throw new NotFoundException(msg, 404);
+            throw new NotFoundException(msg, NOT_FOUND.getCode());
         }
     }
 
@@ -55,7 +67,7 @@ public final class ValidationUtil {
             String msg = entity
                     + " already exist! "
                     + "{ " + parameter + ":" + value.toString() + " }";
-            throw new AlreadyExistException(msg, 400);
+            throw new AlreadyExistException(msg, ALREADY_EXIST.getCode());
         }
     }
 

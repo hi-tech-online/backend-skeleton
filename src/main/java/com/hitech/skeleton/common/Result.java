@@ -2,60 +2,35 @@ package com.hitech.skeleton.common;
 
 import lombok.Data;
 
-import java.util.List;
+import java.io.Serializable;
 
 /**
+ * 响应格式接口, code 返回 0 表示成功
+ *
  * @author Steven
  * @date 2019-04-25
  */
 @Data
-public class Result implements IResult {
+public class Result implements Serializable {
 
+    /**
+     * 数据行数
+     */
     private Integer total;
+
+    /**
+     * 数据
+     */
     private Object rows;
 
+    /**
+     * 返回编码 0: 正常, 非0: 异常
+     */
     private Integer code;
+
+    /**
+     * 异常时返回的错误信息
+     */
     private String message;
-
-    public static Result success() {
-        Result result = new Result();
-        result.setResultCode(0);
-        return result;
-    }
-
-    public static Result success(Object rows) {
-        Result result = new Result();
-        result.setResultCode(0);
-        result.setRows(rows);
-        if (rows instanceof List) {
-            List list = (List) rows;
-            result.setTotal(list.size());
-        }
-        return result;
-    }
-
-    public static Result failure(int code) {
-        Result result = new Result();
-        result.setResultCode(code);
-        return result;
-    }
-
-    public static Result failure(String message) {
-        Result result = new Result();
-        result.setCode(-1);
-        result.setMessage(message);
-        return result;
-    }
-
-    public static Result failure(int code, String message) {
-        Result result = new Result();
-        result.setResultCode(code);
-        result.setMessage(message);
-        return result;
-    }
-
-    private void setResultCode(int code) {
-        this.code = code;
-    }
 
 }
