@@ -1,6 +1,5 @@
 package com.hitech.skeleton.framework.utils;
 
-import com.hitech.skeleton.framework.common.IResult;
 import com.hitech.skeleton.framework.common.Result;
 import lombok.Data;
 
@@ -11,7 +10,7 @@ import java.util.List;
  * @date 2019-04-25
  */
 @Data
-public class ResultUtil implements IResult {
+public class ResultUtil {
 
     public static Result success() {
         Result result = new Result();

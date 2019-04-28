@@ -10,6 +10,8 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
+ * Entity 基础类
+ *
  * @author Steven
  */
 @Data
@@ -34,5 +36,11 @@ public class BaseEntity implements Serializable {
 	 */
 	@TableField(value = "gmt_modified", fill = FieldFill.INSERT_UPDATE)
 	private LocalDateTime gmtModified;
+
+	/**
+	 * 是否有效（1:有效, 0:失效）
+	 */
+	@TableField("enabled")
+	private Boolean enabled;
 
 }

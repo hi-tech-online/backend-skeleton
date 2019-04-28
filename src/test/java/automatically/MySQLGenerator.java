@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.po.TableFill;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
+import com.hitech.skeleton.framework.common.BaseEntity;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -142,14 +143,15 @@ public class MySQLGenerator {
 
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
-        strategy.setTableFillList(tableFillList);
+        // strategy.setTableFillList(tableFillList);
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         strategy.setEntityLombokModel(true);
         strategy.setInclude(tables);
         strategy.setRestControllerStyle(true);
         //strategy.setSuperEntityClass(BaseEntity.class);
-        //strategy.setSuperEntityColumns("id", "gmt_create", "gmt_modified");
+        strategy.setSuperEntityClass("com.hitech.skeleton.framework.common.BaseEntity");
+        strategy.setSuperEntityColumns("id", "gmt_create", "gmt_modified", "enabled");
         strategy.setControllerMappingHyphenStyle(true);
         //strategy.setTablePrefix(packageConfig.getModuleName() + "_");
         strategy.setEntityTableFieldAnnotationEnable(true);
