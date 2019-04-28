@@ -1,4 +1,4 @@
-package com.hitech.skeleton.common;
+package com.hitech.skeleton.framework.common;
 
 import java.util.ArrayList;
 import java.util.HashMap;

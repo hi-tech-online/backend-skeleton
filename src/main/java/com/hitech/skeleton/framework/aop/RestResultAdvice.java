@@ -1,7 +1,7 @@
-package com.hitech.skeleton.aop;
+package com.hitech.skeleton.framework.aop;
 
-import com.hitech.skeleton.annotation.RestResult;
-import com.hitech.skeleton.utils.ResultUtil;
+import com.hitech.skeleton.framework.annotation.RestResult;
+import com.hitech.skeleton.framework.utils.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 /**
- * 拦截 RestController方法默认返回参数，统一处理返回值/响应体
+ * 拦截 RestController方法默认返回参数，统一处理返回值/响应体，配合 RestResult.class 使用。
  *
  * @author Steven
  * @date 2019-04-26
@@ -32,7 +32,6 @@ public class RestResultAdvice implements ResponseBodyAdvice {
 	                              Class selectedConverterType,
 	                              ServerHttpRequest request,
 	                              ServerHttpResponse response) {
-		log.info("Rest接口返回, 统一转换: " + body);
 		return ResultUtil.success(body);
 
 	}

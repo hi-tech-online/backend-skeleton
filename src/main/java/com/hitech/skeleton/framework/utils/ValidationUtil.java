@@ -1,10 +1,10 @@
-package com.hitech.skeleton.utils;
+package com.hitech.skeleton.framework.utils;
 
-import com.hitech.skeleton.exception.cases.AlreadyExistException;
-import com.hitech.skeleton.exception.cases.NotFoundException;
+import com.hitech.skeleton.framework.exception.cases.AlreadyExistException;
+import com.hitech.skeleton.framework.exception.cases.NotFoundException;
 
-import static com.hitech.skeleton.exception.ErrorKind.ALREADY_EXIST;
-import static com.hitech.skeleton.exception.ErrorKind.NOT_FOUND;
+import static com.hitech.skeleton.framework.exception.ErrorKind.ALREADY_EXIST;
+import static com.hitech.skeleton.framework.exception.ErrorKind.NOT_FOUND;
 
 /**
  * @author Steven

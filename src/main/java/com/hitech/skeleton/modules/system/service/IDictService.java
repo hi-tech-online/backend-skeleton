@@ -5,11 +5,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * <p>
- *  服务类
+ * 数据字典类型表 服务类
  * </p>
  *
  * @author Steven
- * @since 2019-04-25
+ * @since 2019-04-27
  */
 public interface IDictService extends IService<Dict> {
 

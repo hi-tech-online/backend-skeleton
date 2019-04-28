@@ -1,7 +1,7 @@
-package com.hitech.skeleton.utils;
+package com.hitech.skeleton.framework.utils;
 
-import com.hitech.skeleton.common.IResult;
-import com.hitech.skeleton.common.Result;
+import com.hitech.skeleton.framework.common.IResult;
+import com.hitech.skeleton.framework.common.Result;
 import lombok.Data;
 
 import java.util.List;

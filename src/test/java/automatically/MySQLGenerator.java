@@ -1,12 +1,13 @@
 package automatically;
 
+import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
-import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
-import com.baomidou.mybatisplus.generator.config.po.TableInfo;
+import com.baomidou.mybatisplus.generator.config.po.TableFill;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import lombok.extern.slf4j.Slf4j;
@@ -31,11 +32,11 @@ public class MySQLGenerator {
      */
     private static String author = "Steven";
 
-    private static String url = "jdbc:mysql://39.106.228.124:3306/base?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC";
+    private static String url = "jdbc:mysql://hi-tech.online:3306/base?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC";
     private static String driver = "com.mysql.cj.jdbc.Driver";
     private static String schemaName = "base";
-    private static String username = "uop_base";
-    private static String password = "20190422";
+    private static String username = "base";
+    private static String password = "vivoX23";
 
     private static String parentPackege = "com.hitech.skeleton.modules";
 
@@ -77,6 +78,13 @@ public class MySQLGenerator {
             System.exit(0);
         }
 
+        // 自定义需要填充的字段
+        List<TableFill> tableFillList = new ArrayList<TableFill>();
+        TableFill createField = new TableFill("gmt_create", FieldFill.INSERT);
+        TableFill modifiedField = new TableFill("gmt_modified", FieldFill.INSERT_UPDATE);
+        tableFillList.add(createField);
+        tableFillList.add(modifiedField);
+
         // 代码生成器
         AutoGenerator autoGenerator = new AutoGenerator();
 
@@ -93,6 +101,7 @@ public class MySQLGenerator {
 
         // 数据源配置
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
+        dataSourceConfig.setDbType(DbType.MYSQL);
         dataSourceConfig.setUrl(url);
         dataSourceConfig.setSchemaName(schemaName);
         dataSourceConfig.setDriverName(driver);
@@ -133,16 +142,17 @@ public class MySQLGenerator {
 
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
+        strategy.setTableFillList(tableFillList);
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         strategy.setEntityLombokModel(true);
         strategy.setInclude(tables);
         strategy.setRestControllerStyle(true);
-        strategy.setSuperEntityColumns("id");
+        //strategy.setSuperEntityClass(BaseEntity.class);
+        //strategy.setSuperEntityColumns("id", "gmt_create", "gmt_modified");
         strategy.setControllerMappingHyphenStyle(true);
-        strategy.setTablePrefix(packageConfig.getModuleName() + "_");
+        //strategy.setTablePrefix(packageConfig.getModuleName() + "_");
         strategy.setEntityTableFieldAnnotationEnable(true);
-
 
         TemplateConfig templateConfig = new TemplateConfig();
         templateConfig.setController("/automatically/controller.java");

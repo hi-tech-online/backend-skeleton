@@ -1,4 +1,4 @@
-package com.hitech.skeleton.config;
+package com.hitech.skeleton.framework.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

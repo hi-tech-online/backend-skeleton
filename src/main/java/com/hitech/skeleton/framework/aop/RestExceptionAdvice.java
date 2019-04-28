@@ -1,9 +1,9 @@
-package com.hitech.skeleton.exception.handler;
+package com.hitech.skeleton.framework.aop;
 
-import com.hitech.skeleton.common.Result;
-import com.hitech.skeleton.exception.cases.AlreadyExistException;
-import com.hitech.skeleton.exception.cases.NotFoundException;
-import com.hitech.skeleton.utils.ResultUtil;
+import com.hitech.skeleton.framework.common.Result;
+import com.hitech.skeleton.framework.exception.cases.AlreadyExistException;
+import com.hitech.skeleton.framework.exception.cases.NotFoundException;
+import com.hitech.skeleton.framework.utils.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,7 +20,7 @@ import static org.springframework.http.HttpStatus.OK;
  */
 @Slf4j
 @RestControllerAdvice
-public class RestExceptionHandler {
+public class RestExceptionAdvice {
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseBody
@@ -37,8 +37,6 @@ public class RestExceptionHandler {
         log.error(e.getMessage(), e);
         return ResultUtil.failure(e.getCode(), e.getMessage());
     }
-
-
 
     /**
      * 处理所有不可知的异常

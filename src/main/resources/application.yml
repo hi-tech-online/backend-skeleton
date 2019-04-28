@@ -21,22 +21,22 @@ spring:
       primary: base # 默认数据源
       datasource:
         base:
-          username: uop_base
-          password: 20190422
+          username: base
+          password: vivoX23
           driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://39.106.228.124:3306/base?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
-        ins:
-          username: uop_ins
-          password: 20190422
+          url: jdbc:mysql://39.106.228.124:3306/base?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+        base-read:
+          username: base
+          password: vivoX23
           driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://39.106.228.124:3306/ins?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+          url: jdbc:mysql://39.106.228.124:3306/base?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
 
   # thymeleaf 模板配置
-#  thymeleaf.prefix: classpath:/templates/
-#  thymeleaf.suffix: .html
-#  thymeleaf.mode: HTML
-#  thymeleaf.encoding: UTF-8
-#  thymeleaf.cache: false
+  thymeleaf.prefix: classpath:/templates/
+  thymeleaf.suffix: .html
+  thymeleaf.mode: HTML
+  thymeleaf.encoding: UTF-8
+  thymeleaf.cache: false
 
   resources.chain.strategy.content.enabled: true
   resources.chain.strategy.content.paths: /**

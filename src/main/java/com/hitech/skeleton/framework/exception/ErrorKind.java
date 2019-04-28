@@ -1,4 +1,4 @@
-package com.hitech.skeleton.exception;
+package com.hitech.skeleton.framework.exception;
 
 /**
  * 异常编码枚举，业务异常的抽象概括。<br/>

@@ -1,27 +1,21 @@
 package com.hitech.skeleton.modules.system.controller;
 
-import com.hitech.skeleton.common.Result;
 import com.hitech.skeleton.modules.system.entity.po.Dict;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import lombok.extern.slf4j.Slf4j;
 
-import com.hitech.skeleton.common.IResult;
 import com.hitech.skeleton.modules.system.service.IDictService;
-
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 /**
  * <p>
- *  前端控制器
+ * 数据字典类型表 前端控制器
  * </p>
  *
  * @author Steven
- * @since 2019-04-25
+ * @since 2019-04-27
  */
 @RestController
 @Slf4j
@@ -31,19 +25,25 @@ public class DictController {
     @Autowired
     private IDictService dictServiceImpl;
 
-    @GetMapping("list")
+    @PostMapping("")
+    public boolean save(Dict dict) {
+        log.info("dict: " + dict);
+        return dictServiceImpl.save(dict);
+    }
+
+    @GetMapping("")
     public List<Dict> list() {
-        return dictServiceImpl.list();
+        List<Dict> dicts = dictServiceImpl.list();
+        for (Dict dict : dicts) {
+            log.info("-> " + dict);
+        }
+        return dicts;
     }
 
-    @GetMapping("{id}")
-    public IResult getById(Long id) {
-        return null;
-    }
-
-    @DeleteMapping("{id}")
-    public IResult removeById(Long id) {
-        return null;
+    @PutMapping("{id}")
+    public boolean update(Dict dict) {
+        log.info("dict: " + dict);
+        return dictServiceImpl.updateById(dict);
     }
 
 }

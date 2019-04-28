@@ -1,6 +1,6 @@
-package com.hitech.skeleton.exception.cases;
+package com.hitech.skeleton.framework.exception.cases;
 
-import com.hitech.skeleton.exception.BaseException;
+import com.hitech.skeleton.framework.exception.BaseException;
 
 /**
  * @author Steven

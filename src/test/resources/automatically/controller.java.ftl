@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import lombok.extern.slf4j.Slf4j;
 
-import com.hitech.skeleton.common.IResult;
 import com.hitech.skeleton.modules.${package.ModuleName}.service.${table.serviceName};
 
 <#if restControllerStyle>
@@ -45,15 +44,7 @@ public class ${table.controllerName} {
     @Autowired
     private ${table.serviceName} ${table.serviceImplName?uncap_first};
 
-    @GetMapping("{id}")
-    public IResult getById(Long id) {
-        return null;
-    }
 
-    @DeleteMapping("{id}")
-    public IResult removeById(Long id) {
-        return null;
-    }
 
 }
 </#if>
