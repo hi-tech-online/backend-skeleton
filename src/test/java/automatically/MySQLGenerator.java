@@ -79,7 +79,7 @@ public class MySQLGenerator {
         }
 
         // 自定义需要填充的字段
-        List<TableFill> tableFillList = new ArrayList<TableFill>();
+        List<TableFill> tableFillList = new ArrayList<>();
         TableFill createField = new TableFill("gmt_create", FieldFill.INSERT);
         TableFill modifiedField = new TableFill("gmt_modified", FieldFill.INSERT_UPDATE);
         tableFillList.add(createField);

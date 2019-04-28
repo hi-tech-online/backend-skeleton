@@ -11,6 +11,10 @@ package com.hitech.skeleton.framework.exception;
  */
 public enum ErrorKind {
 
+	/**
+	 * MybatisPlus通用异常
+	 */
+	MABATIS_PLIUS_EXCEPTION(400003),
 
 	/**
 	 * 不存在

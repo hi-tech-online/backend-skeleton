@@ -15,6 +15,9 @@ import java.time.LocalDateTime;
 @Component
 public class AutoSetMetaObjectAdvice implements MetaObjectHandler {
 
+	private static final String GMT_CREATE = "gmtCreate";
+	private static final String GMT_MODIFIED = "gmtModified";
+
 	/**
 	 * 在新增记录时自动设置。
 	 *
@@ -23,8 +26,8 @@ public class AutoSetMetaObjectAdvice implements MetaObjectHandler {
 	@Override
 	public void insertFill(MetaObject metaObject) {
 		LocalDateTime localDateTime = LocalDateTime.now();
-		this.setFieldValByName("gmtCreate", localDateTime, metaObject);
-		this.setFieldValByName("gmtModified", localDateTime, metaObject);
+		this.setInsertFieldValByName(GMT_CREATE, localDateTime, metaObject);
+		this.setInsertFieldValByName(GMT_MODIFIED, localDateTime, metaObject);
 
 	}
 
@@ -35,6 +38,6 @@ public class AutoSetMetaObjectAdvice implements MetaObjectHandler {
 	 */
 	@Override
 	public void updateFill(MetaObject metaObject) {
-		this.setFieldValByName("gmtModified", LocalDateTime.now(), metaObject);
+		this.setUpdateFieldValByName(GMT_MODIFIED, LocalDateTime.now(), metaObject);
 	}
 }

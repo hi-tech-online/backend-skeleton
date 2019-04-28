@@ -1,6 +1,8 @@
 package com.hitech.skeleton.framework.aop;
 
+import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.hitech.skeleton.framework.common.Result;
+import com.hitech.skeleton.framework.exception.ErrorKind;
 import com.hitech.skeleton.framework.exception.cases.AlreadyExistException;
 import com.hitech.skeleton.framework.exception.cases.NotFoundException;
 import com.hitech.skeleton.framework.utils.ResultUtil;
@@ -36,6 +38,14 @@ public class RestExceptionAdvice {
     public Result handleResourceAlreadyExistException(AlreadyExistException e) {
         log.error(e.getMessage(), e);
         return ResultUtil.failure(e.getCode(), e.getMessage());
+    }
+
+    @ExceptionHandler(MybatisPlusException.class)
+    @ResponseBody
+    @ResponseStatus(OK)
+    public Result handleMybatisPlusException(MybatisPlusException e) {
+        log.error(e.getMessage(), e);
+        return ResultUtil.failure(ErrorKind.MABATIS_PLIUS_EXCEPTION.getCode(), e.getMessage());
     }
 
     /**

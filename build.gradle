@@ -10,7 +10,7 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
 repositories {
-    mavenCentral()
+    maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
 }
 
 processResources {
@@ -34,6 +34,7 @@ dependencies {
     implementation 'io.springfox:springfox-swagger2:2.9.2'
     implementation 'io.springfox:springfox-swagger-ui:2.9.2'
 
+    implementation 'p6spy:p6spy:3.0.0'
     runtime 'mysql:mysql-connector-java'
 
 

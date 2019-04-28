@@ -13,6 +13,7 @@ server:
 logging:
   level:
     root: INFO
+    com.baomidou.mybatisplus: INFO
     com.hitech.wechat.api.demo: DEBUG
 
 spring:
@@ -30,6 +31,7 @@ spring:
           password: vivoX23
           driver-class-name: com.mysql.cj.jdbc.Driver
           url: jdbc:mysql://39.106.228.124:3306/base?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+
 
   # thymeleaf 模板配置
   thymeleaf.prefix: classpath:/templates/
