@@ -49,7 +49,7 @@ public class RestExceptionAdvice {
     @ResponseStatus(OK)
     public Result handleException(Exception e) {
         log.error(e.getMessage(), e);
-        return ResultUtil.failure(-1, e.getMessage());
+        return ResultUtil.failure(400000, e.getMessage());
     }
 
 }

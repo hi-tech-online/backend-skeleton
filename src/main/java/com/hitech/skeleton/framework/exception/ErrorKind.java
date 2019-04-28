@@ -1,7 +1,7 @@
 package com.hitech.skeleton.framework.exception;
 
 /**
- * 异常编码枚举，业务异常的抽象概括。<br/>
+ * 异常编码枚举，业务异常的抽象概括。异常编码范围: 400001 -> 500000 <br/>
  * <p>
  * 比如：<br/>
  * 根据 "员工编码" 找不到员工记录时，抛 NOT_FOUND；新增员工如果已经存在，抛 ALREADY_EXIST。
@@ -10,6 +10,7 @@ package com.hitech.skeleton.framework.exception;
  * @date 2019-04-25
  */
 public enum ErrorKind {
+
 
 	/**
 	 * 不存在
