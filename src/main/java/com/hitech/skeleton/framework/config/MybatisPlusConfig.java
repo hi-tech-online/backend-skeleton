@@ -20,7 +20,7 @@ import java.util.List;
  */
 @EnableTransactionManagement
 @Configuration
-@MapperScan("com.hitech.skeleton")
+@MapperScan("com.hitech.skeleton.**.mapper")
 public class MybatisPlusConfig {
 
 	/**
