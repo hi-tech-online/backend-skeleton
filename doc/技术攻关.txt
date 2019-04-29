@@ -1,8 +1,18 @@
+*.前端:
+    -> HTML
+    -> CSS
+    -> JavaScript
+    -> JQuery                                       [优先级: P0]
+    -> Vue.js
+    -> LayUI                                        [优先级: P0]
+    -> EasyUI
+    -> ECharts/D3 - 前端数据可视化
+
 *.快速开发:
-    -> 代码自动生成 [OK]
+    -> 模板代码自动生成技术 [OK]
     -> lombok [OK]
     -> REST 接口文档 swagger [OK]
-    -> LayUI, EasyUI, RestAPI [OK]
+    -> RestAPI [OK]
     -> REST 接口通用参数切面封装 [OK]
     -> 统一异常定义、捕获、封装 [OK]
     -> @Slf4j 统一日志工具注入 [OK]
@@ -17,21 +27,58 @@
     -> 高危 SQL 阻断器 [OK]
     -> SQL 性能分析, 超时中断、SQL格式化打印 [OK]
     -> 逻辑删除 [OK]
-    -> 事务以及多数据源事务
+    -> 事务控制                                      [优先级: P0]
+    -> 多数据源事务, 基于 Atomikos                    [优先级: P0]
 
 *.安全:
     -> 配置文件中的密码加密
-    -> 登录验证
-    -> 权限验证
+    -> 登录验证                                      [优先级: P0]
+    -> 权限验证                                      [优先级: P0]
 
 *.WebSock:
     浏览器与服务器之间进行双向通信。
 
 *.性能优化:
-    -> 集成 Driud 连接池
-    -> 集成 Fastjson
-    -> 参数缓存
-    -> 动态缓存更新
+    -> 集成 Driud 连接池 [OK]
+    -> 参数缓存                                      [优先级: P0]
+    -> 动态缓存更新                                   [优先级: P0]
+    -> 二级缓存集成 Redis
+    -> 二级缓存集成 Memcached
+
+*.Spring Cloud
+    -> Eureka 注册中心
+    -> Hystrix 服务降级与熔断
+    -> Zuul 服务网关与路由
+    -> OAuth2 安全认证
+    -> Zipkin 链路追踪
+
+*.流式计算:
+    -> Kafka
+    -> RocketMQ
+    -> Flink
+    -> [J]Storm
+
+*.搜索引擎:
+    -> ElasticSearch
+
+*.大数据存储与分析:
+    -> MySQL
+    -> HDFS
+    -> HBase
+    -> Spark
+    -> InfluxDB 时序库
+
+*.人工智能:
+    -> Tensflow
+    -> Spark Mlib
+
+*.容器化:
+    -> Docker
+    -> K8S
+
+*.测试:
+    -> Selenium 自动化测试
+    -> JProfiler 性能测试
 
 *.小程序:
     -> 拍照, 图片上传

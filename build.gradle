@@ -22,6 +22,7 @@ processResources {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-jta-atomikos'
     implementation 'org.springframework.boot:spring-boot-devtools'
 
     implementation 'com.baomidou:dynamic-datasource-spring-boot-starter:2.5.4'
