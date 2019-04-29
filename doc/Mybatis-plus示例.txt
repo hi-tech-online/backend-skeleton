@@ -1,0 +1,165 @@
+mybatis-plus-sample-active-record
+mybatis-plus-sample-cascade
+mybatis-plus-sample-deluxe
+mybatis-plus-sample-enum -- 不知道其应用场景
+mybatis-plus-sample-logic-delete
+mybatis-plus-sample-sql-injector
+mybatis-plus-sample-tenant -- 多租户
+
++---------------------------+
+|    Mybatis plus 示例      |
++---------------------------+
+    @Test
+    public void testSelect() {
+        System.out.println(("----- selectAll method test ------"));
+        List<User> userList = userMapper.selectList(null);
+        Assert.assertEquals(5, userList.size());
+        userList.forEach(System.out::println);
+    }
+
+    @Test
+    public void aInsert() {
+        User user = new User();
+        user.setName("小羊");
+        user.setAge(3);
+        user.setEmail("abc@mp.com");
+        assertThat(mapper.insert(user)).isGreaterThan(0);
+        // 成功直接拿会写的 ID
+        assertThat(user.getId()).isNotNull();
+    }
+
+
+    @Test
+    public void bDelete() {
+        assertThat(mapper.deleteById(3L)).isGreaterThan(0);
+        assertThat(mapper.delete(new QueryWrapper<User>()
+                .lambda().eq(User::getName, "Sandy"))).isGreaterThan(0);
+    }
+
+
+    @Test
+    public void cUpdate() {
+        assertThat(mapper.updateById(new User().setId(1L).setEmail("ab@c.c"))).isGreaterThan(0);
+        assertThat(mapper.update(new User().setName("mp"),
+                Wrappers.<User>lambdaUpdate()
+                        .set(User::getAge, 3)
+                        .eq(User::getId, 2))).isGreaterThan(0);
+    }
+
+
+    @Test
+    public void dSelect() {
+        assertThat(mapper.selectById(1L).getEmail()).isEqualTo("ab@c.c");
+        User user = mapper.selectOne(new QueryWrapper<User>().lambda().eq(User::getId, 2));
+        assertThat(user.getName()).isEqualTo("mp");
+        assertThat(user.getAge()).isEqualTo(3);
+    }
+
+    @Test
+    public void orderBy() {
+        List<User> users = mapper.selectList(Wrappers.<User>query().orderByAsc("age"));
+        assertThat(users).isNotEmpty();
+    }
+
+    @Test
+    public void selectMaps() {
+        List<Map<String, Object>> mapList = mapper.selectMaps(Wrappers.<User>query().orderByAsc("age"));
+        assertThat(mapList).isNotEmpty();
+        assertThat(mapList.get(0)).isNotEmpty();
+        System.out.println(mapList.get(0));
+    }
+
+    @Test
+    public void selectMapsPage() {
+        IPage<Map<String, Object>> page = mapper.selectMapsPage(new Page<>(1, 5), Wrappers.<User>query().orderByAsc("age"));
+        assertThat(page).isNotNull();
+        assertThat(page.getRecords()).isNotEmpty();
+        assertThat(page.getRecords().get(0)).isNotEmpty();
+        System.out.println(page.getRecords().get(0));
+    }
+
+    @Test
+    public void orderByLambda() {
+        List<User> users = mapper.selectList(Wrappers.<User>lambdaQuery().orderByAsc(User::getAge));
+        assertThat(users).isNotEmpty();
+    }
+    
+        @Test
+    public void tests() {
+        System.out.println("----- 普通查询 ------");
+        List<User> plainUsers = userMapper.selectList(new QueryWrapper<User>().eq("role_id", 2L));
+        List<User> lambdaUsers = userMapper.selectList(new QueryWrapper<User>().lambda().eq(User::getRoleId, 2L));
+        Assert.assertEquals(plainUsers.size(), lambdaUsers.size());
+        print(plainUsers);
+
+        System.out.println("----- 带子查询(sql注入) ------");
+        List<User> plainUsers2 = userMapper.selectList(new QueryWrapper<User>()
+                .inSql("role_id", "select id from role where id = 2"));
+        List<User> lambdaUsers2 = userMapper.selectList(new QueryWrapper<User>().lambda()
+                .inSql(User::getRoleId, "select id from role where id = 2"));
+        Assert.assertEquals(plainUsers2.size(), lambdaUsers2.size());
+        print(plainUsers2);
+
+        System.out.println("----- 带嵌套查询 ------");
+        List<User> plainUsers3 = userMapper.selectList(new QueryWrapper<User>()
+                .nested(i -> i.eq("role_id", 2L).or().eq("role_id", 3L))
+                .and(i -> i.ge("age", 20)));
+        List<User> lambdaUsers3 = userMapper.selectList(new QueryWrapper<User>().lambda()
+                .nested(i -> i.eq(User::getRoleId, 2L).or().eq(User::getRoleId, 3L))
+                .and(i -> i.ge(User::getAge, 20)));
+        Assert.assertEquals(plainUsers3.size(), lambdaUsers3.size());
+        print(plainUsers3);
+
+        System.out.println("----- 自定义(sql注入) ------");
+        List<User> plainUsers4 = userMapper.selectList(new QueryWrapper<User>()
+                .apply("role_id = 2"));
+        print(plainUsers4);
+
+        UpdateWrapper<User> uw = new UpdateWrapper<>();
+        uw.set("email", null);
+        uw.eq("id",4);
+        userMapper.update(new User(), uw);
+        User u4 = userMapper.selectById(4);
+        Assert.assertNull(u4.getEmail());
+
+
+    }
+
+    @Test
+    public void lambdaQueryWrapper(){
+        System.out.println("----- 普通查询 ------");
+        List<User> plainUsers = userMapper.selectList(new LambdaQueryWrapper<User>().eq(User::getRoleId, 2L));
+        List<User> lambdaUsers = userMapper.selectList(new QueryWrapper<User>().lambda().eq(User::getRoleId, 2L));
+        Assert.assertEquals(plainUsers.size(), lambdaUsers.size());
+        print(plainUsers);
+
+        System.out.println("----- 带子查询(sql注入) ------");
+        List<User> plainUsers2 = userMapper.selectList(new LambdaQueryWrapper<User>()
+                .inSql(User::getRoleId, "select id from role where id = 2"));
+        List<User> lambdaUsers2 = userMapper.selectList(new QueryWrapper<User>().lambda()
+                .inSql(User::getRoleId, "select id from role where id = 2"));
+        Assert.assertEquals(plainUsers2.size(), lambdaUsers2.size());
+        print(plainUsers2);
+
+        System.out.println("----- 带嵌套查询 ------");
+        List<User> plainUsers3 = userMapper.selectList(new LambdaQueryWrapper<User>()
+                .nested(i -> i.eq(User::getRoleId, 2L).or().eq(User::getRoleId, 3L))
+                .and(i -> i.ge(User::getAge, 20)));
+        List<User> lambdaUsers3 = userMapper.selectList(new QueryWrapper<User>().lambda()
+                .nested(i -> i.eq(User::getRoleId, 2L).or().eq(User::getRoleId, 3L))
+                .and(i -> i.ge(User::getAge, 20)));
+        Assert.assertEquals(plainUsers3.size(), lambdaUsers3.size());
+        print(plainUsers3);
+
+        System.out.println("----- 自定义(sql注入) ------");
+        List<User> plainUsers4 = userMapper.selectList(new QueryWrapper<User>()
+                .apply("role_id = 2"));
+        print(plainUsers4);
+
+        UpdateWrapper<User> uw = new UpdateWrapper<>();
+        uw.set("email", null);
+        uw.eq("id",4);
+        userMapper.update(new User(), uw);
+        User u4 = userMapper.selectById(4);
+        Assert.assertNull(u4.getEmail());
+    }
