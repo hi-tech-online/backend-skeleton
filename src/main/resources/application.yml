@@ -62,9 +62,15 @@ spring:
   resources.chain.strategy.content.enabled: true
   resources.chain.strategy.content.paths: /**
 
-#  jackson.date-format: yyyy-MM-dd HH:mm:ss
-#  jackson.time-zone: Asia/Shanghai
-#  jackson.default-property-inclusion: non_null
+  jackson.date-format: yyyy-MM-dd HH:mm:ss
+  jackson.time-zone: Asia/Shanghai
+  jackson.default-property-inclusion: non_null
+
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
+      exclude: static/**
 
 rest:
   api:

@@ -1,13 +1,9 @@
 package com.hitech.skeleton.modules.demo.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.beans.factory.annotation.Autowired;
-import lombok.extern.slf4j.Slf4j;
-
 import com.hitech.skeleton.modules.demo.service.IDictDetailService;
-
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -23,9 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/demo/dict-detail")
 public class DictDetailController {
 
-    @Autowired
-    private IDictDetailService dictDetailServiceImpl;
-
-
+	@Autowired
+	private IDictDetailService dictDetailServiceImpl;
 
 }
