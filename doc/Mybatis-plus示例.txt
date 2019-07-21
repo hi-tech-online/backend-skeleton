@@ -328,6 +328,214 @@ public void selectLambda() {
 	users.forEach(System.out::println);
 }
 
++---------------------------+
+|         分页查询           |
++---------------------------+
+
+@EnableTransactionManagement
+@Configuration
+@MapperScan("com.hitech.skeleton.**.mapper")
+public class MybatisPlusConfig {
+	/**
+	 * 分页插件
+	 */
+	@Bean
+	public PaginationInterceptor paginationInterceptor() {
+		PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
+		return paginationInterceptor;
+	}
+
+}
+
+/**
+ * 分页查询
+ * SQL1:  SELECT COUNT(1) FROM user WHERE age >= 26
+ * SQL2:  SELECT id, name, age, email, manager_id, create_time FROM user WHERE age >= 26 LIMIT ?,?
+ */
+public void selectPage() {
+	QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+	queryWrapper.ge("age", 26);
+	Page<User> page = new Page<>(1, 2);
+	IPage<User> iPage = userMapper.selectPage(page, queryWrapper);
+	List<User> users =  iPage.getRecords();
+	System.out.println("总页数: " + iPage.getPages());
+	System.out.println("总记录数: " + iPage.getTotal());
+	users.forEach(System.out::println);
+}
+
+/**
+ * 分页查询 返回 Map
+ * SQL1:  SELECT COUNT(1) FROM user WHERE age >= 26
+ * SQL2:  SELECT id, name, age, email, manager_id, create_time FROM user WHERE age >= 26 LIMIT ?,?
+ */
+public void selectMapPage() {
+	QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+	queryWrapper.ge("age", 26);
+	Page<User> page = new Page<>(1, 2);
+	IPage<Map<String, Object>> iPage = userMapper.selectMapsPage(page, queryWrapper);
+	System.out.println("总页数: " + iPage.getPages());
+	System.out.println("总记录数: " + iPage.getTotal());
+	List<Map<String, Object>> users =  iPage.getRecords();
+	users.forEach(System.out::println);
+}
+
+/**
+ * 分页查询 不返回总记录数，有些场景其实并不需要返回总记录数，消耗太大。因此只会运行有一条 SQL
+ * SQL1:  SELECT id, name, age, email, manager_id, create_time FROM user WHERE age >= 26 LIMIT ?,?
+ */
+public void selectPageWithoutCount() {
+	QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+	queryWrapper.ge("age", 26);
+	Page<User> page = new Page<>(1, 2, false); // 第三个参数: isSearchCount=false, 无需返回总记录数
+	IPage<User> iPage = userMapper.selectPage(page, queryWrapper);
+	System.out.println("总页数: " + iPage.getPages());
+	System.out.println("总记录数: " + iPage.getTotal());
+	List<User> users =  iPage.getRecords();
+	users.forEach(System.out::println);
+}
+
+
+// 多表关联的分页查询，这里演示的是单表，多表是一样的，关键是写好 Xml 文件里的 SQL
+// UserMapper.java 中增加接口
+@Mapper
+public interface UserMapper extends BaseMapper<User> {
+	IPage<User> selectUserPage(Page<User> page, @Param(Constants.WRAPPER) Wrapper<User> wrapper);
+}
+
+// UserMapper.xml 中增加接口语句配置
+<select id="selectUserPage" resultType="com.hitech.skeleton.modules.demo.entity.po.User" >
+    SELECT * FROM user ${ew.customSqlSegment}
+</select>
+
+/**
+ * 分页查询 不返回总记录数，有些场景其实并不需要返回总记录数，消耗太大。因此只会运行有一条 SQL
+ * SQL1:  SELECT COUNT(1) FROM user WHERE age >= 26
+ * SQL2:  SELECT * FROM user WHERE age >= 26 LIMIT ?,?
+ */
+public void selectPageWithoutCount() {
+	QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+	queryWrapper.ge("age", 26);
+	Page<User> page = new Page<>(1, 2);
+	IPage<User> iPage = userMapper.selectUserPage(page, queryWrapper); // 自定义语句
+	System.out.println("总页数: " + iPage.getPages());
+	System.out.println("总记录数: " + iPage.getTotal());
+	List<User> users =  iPage.getRecords();
+	users.forEach(System.out::println);
+}
+
++---------------------------+
+|         更新操作           |
++---------------------------+
+
+/**
+ * 按 ID 进行更新，实体中 id 必须有数据，其它字段不为 null 的情况下，会设置到 set 语句中。
+ * SQL: UPDATE user set email = 'wtf2@qq.com', age = 26 WHERE id = 101010101001
+ */
+public void updateById() {
+	User user = new User();
+	user.setId(101010101001L);
+	user.setEmail("wtf2@qq.com");
+	user.setAge(26);
+
+	int rows = userMapper.updateById(user);
+	System.out.println("影响记录数: " + rows);
+}
+
+/**
+ * 按 条件构造器 进行更新，实体中不为 null 的属性，会设置到 set 语句中。
+ * SQL: UPDATE user set email = 'wtf2@163.com', age = 27 WHERE name = '李毅伟' AND age = 28
+ */
+public void updateByWrapper() {
+	UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
+	updateWrapper.eq("name", "李毅伟").eq("age", 28);
+
+	User user = new User();
+	user.setId(101010101001L);
+	user.setEmail("wtf2@163.com");
+	user.setAge(27);
+
+	int rows = userMapper.update(user, updateWrapper);
+	System.out.println("影响记录数: " + rows);
+}
+
+/**
+ * 更新少量字段时，无需构造实体，实体中不为 null 的属性，会设置到 set 语句中。
+ * SQL: UPDATE user SET email = 'wtf2@163.com', age = 27 WHERE name = '李毅伟' AND age = 28
+ */
+public void updateWithoutEntity() {
+	UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
+	updateWrapper.eq("name", "李毅伟").eq("age", 28).set("email", "wtf2@163.com").set("age", 27);
+	int rows = userMapper.update(null, updateWrapper);
+	System.out.println("影响记录数: " + rows);
+}
+
+/**
+ * 基于 Lambda 语法，有防误写能力。
+ * SQL: UPDATE user SET email = 'wtf2@163.com', age = 27 WHERE name = '李毅伟' AND age = 28
+ */
+public void updateByLambda() {
+	LambdaUpdateWrapper<User> lambdaUpdateWrapper = Wrappers.lambdaUpdate();
+	lambdaUpdateWrapper.eq(User::getName, "李毅伟").eq(User::getAge, 28).set(User::getEmail, "wtf2@163.com").set(User::getAge, 27);
+	int rows = userMapper.update(null, lambdaUpdateWrapper);
+	System.out.println("影响记录数: " + rows);
+}
+
+/**
+ * 链式更新，极为简洁
+ * SQL: UPDATE user SET email = 'wtf2@163.com', age = 27 WHERE name = '李毅伟' AND age = 28
+ */
+public void updateByLambdaChain() {
+	boolean update = new LambdaUpdateChainWrapper<>(userMapper).eq(User::getName, "李毅伟").eq(User::getAge, 28)
+		.set(User::getEmail, "wtf2@163.com").set(User::getAge, 27).update();
+	System.out.println("是否更新成功: " + update);
+}
+
++---------------------------+
+|         删除操作           |
++---------------------------+
+
+/**
+ * 根据 ID 主键来删除
+ * SQL: DELETE FROM user WHERE id = 1010101010
+ */
+public void deleteById() {
+	int rows = userMapper.deleteById(1010101010L);
+	System.out.println("影响记录数: " + rows);
+}
+
+/**
+ * SQL: DELETE FROM user WHERE name = '王天风' AND age = 30
+ */
+public void deleteByMap() {
+
+	Map<String, Object> map = new HashMap<>();
+	map.put("name", "王天风");
+	map.put("age", 30);
+
+	int rows = userMapper.deleteByMap(map);
+	System.out.println("影响记录数: " + rows);
+}
+
+/**
+ * 根据 ID 批量删除
+ * SQL: DELETE FROM user WHERE id IN (111, 222, 333)
+ */
+public void deleteBatchIds() {
+	int rows = userMapper.deleteBatchIds(Arrays.asList(111L, 222L, 333L));
+	System.out.println("影响记录数: " + rows);
+}
+
+/**
+ *
+ * SQL: DELETE FROM user WHERE age = 27 OR age > 41
+ */
+public void deleteByWrapper() {
+	LambdaQueryWrapper<User> lambdaQueryWrapper = Wrappers.<User>lambdaQuery();
+	lambdaQueryWrapper.eq(User::getAge, 27).or().gt(User::getAge, 41);
+	int rows = userMapper.delete(lambdaQueryWrapper);
+	System.out.println("影响记录数: " + rows);
+}
+
 public void insertOne() {
     // 插入
     User user = new User();

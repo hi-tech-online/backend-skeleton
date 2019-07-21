@@ -2,7 +2,10 @@ package com.hitech.skeleton.modules.demo;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.additional.update.impl.LambdaUpdateChainWrapper;
 import com.hitech.skeleton.modules.demo.entity.po.Person;
 import com.hitech.skeleton.modules.demo.entity.po.User;
 import com.hitech.skeleton.modules.demo.mapper.PersonMapper;
@@ -14,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,6 +61,32 @@ public class SimpleTest {
 			.and(lqw -> lqw.lt(User::getId, 40).or().isNotNull(User::getUsername));
 		List<User> users = userMapper.selectList(lambdaQueryWrapper);
 		users.forEach(System.out::println);
+	}
+
+	/**
+	 * 分页查询 不返回总记录数，有些场景其实并不需要返回总记录数，消耗太大。因此只会运行有一条 SQL
+	 * SQL1:  SELECT id, name, age, email, manager_id, create_time FROM user WHERE age >= 26 LIMIT ?,?
+	 */
+	public void selectPageWithoutCount() {
+		QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+		queryWrapper.ge("age", 26);
+		Page<User> page = new Page<>(1, 2);
+		IPage<User> iPage = userMapper.selectUserPage(page, queryWrapper); // 自定义语句
+		System.out.println("总页数: " + iPage.getPages());
+		System.out.println("总记录数: " + iPage.getTotal());
+		List<User> users = iPage.getRecords();
+		users.forEach(System.out::println);
+	}
+
+	/**
+	 *
+	 * SQL: DELETE FROM user WHERE age = 27 OR age > 41
+	 */
+	public void deleteByWrapper() {
+		LambdaQueryWrapper<User> lambdaQueryWrapper = Wrappers.<User>lambdaQuery();
+		lambdaQueryWrapper.eq(User::getAge, 27).or().gt(User::getAge, 41);
+		int rows = userMapper.delete(lambdaQueryWrapper);
+		System.out.println("影响记录数: " + rows);
 	}
 
 }
