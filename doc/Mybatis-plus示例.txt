@@ -16,7 +16,6 @@ mybatis-plus-sample-tenant -- 多租户
  */
 public void selectAll() {
     List<User> userList = userMapper.selectList(null);
-    Assert.assertEquals(5, userList.size());
     userList.forEach(System.out::println);
 }
 
@@ -83,8 +82,7 @@ public void selectByWrapper2() {
  */
 public void selectByWrapper3() {
 	QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-	queryWrapper.likeRight("name", "王").or().ge("age", 25)
-		.orderByDesc("age").orderByAsc("id");
+	queryWrapper.likeRight("name", "王").or().ge("age", 25).orderByDesc("age").orderByAsc("id");
 	List<User> list = userMapper.selectList(queryWrapper);
 	list.forEach(System.out::println);
 }
@@ -336,6 +334,7 @@ public void selectLambda() {
 @Configuration
 @MapperScan("com.hitech.skeleton.**.mapper")
 public class MybatisPlusConfig {
+
 	/**
 	 * 分页插件
 	 */
@@ -344,7 +343,6 @@ public class MybatisPlusConfig {
 		PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
 		return paginationInterceptor;
 	}
-
 }
 
 /**
@@ -536,6 +534,105 @@ public void deleteByWrapper() {
 	System.out.println("影响记录数: " + rows);
 }
 
++---------------------------+
+|       Active Record       |
+|          活动记录          |
++---------------------------+
+是一种领域模型模式，特点是一个模型类对应关系数据库中的一个表，模型实例对应一条记录。
+Active Record 一直广受动态语言的喜爱，而 Java 这类静态语言往往只能望叹其优雅。MP 的作者在 AR 的道路上做了一定探索。
+
+/**
+ * Active Record 实战
+ *
+ * 注意: PO 类必须继承 Model<T>
+ * SQL: INSERT INTO person (id,name,age,email,manager_id,create_time) VALUES(?,?,?,?,?,?);
+ */
+public void activeRecordInsert() {
+	Person person = new Person();
+	person.setName("刘华强");
+	person.setAge(29);
+	person.setEmail("liuhua@163.com");
+	person.setManagerId(111L);
+	person.setCreateTime(LocalDateTime.now());
+	boolean insert = person.insert();
+
+	System.out.println("操作成功与否: " + insert);
+}
+
+/**
+ * Active Record 实战
+ *
+ * 注意: PO 类必须继承 Model<T>
+ * SQL: SELECT id,name,age,email,manager_id,create_time FROM person WHERE id = ?
+ */
+public void select() {
+	Person person = new Person().selectById(11111111L);
+	System.out.println(person);
+}
+
+/**
+ * Active Record 实战
+ * <p>
+ * 注意: PO 类必须继承 Model<T>
+ * SQL: SELECT id,name,age,email,manager_id,create_time FROM person WHERE id = ?
+ */
+public void select() {
+	Person person = new Person();
+	person.setId(11111L);
+	Person selPerson = person.selectById();
+	System.out.println(selPerson);
+}
+
+/**
+ * Active Record 实战
+ * <p>
+ * 注意: PO 类必须继承 Model<T>
+ * SQL: UPDATE person SET name = '金胖' AND id = 1111
+ */
+public void update() {
+	Person person = new Person();
+	person.setId(1111L);
+	person.setName("金胖");
+	boolean update = person.updateById();
+	System.out.println("更新状态: " + update);
+}
+
+/**
+ * Active Record 实战
+ * <p>
+ * 注意: PO 类必须继承 Model<T>
+ * SQL: DELETE FROM person WHERE id = 2222
+ */
+public void delete() {
+	Person person = new Person();
+	person.setId(2222L);
+	boolean delete = person.deleteById();
+	System.out.println("状态: " + delete);
+}
+
+/**
+ * Active Record 实战
+ * <p>
+ * 注意: PO 类必须继承 Model<T>
+ * PO 实例里有 id 时会先根据 id 查询，有记录时 update，没记录返回，执行 insert
+ * SQL: SELECT id,name,age,email,manager_id,create_time FROM person WHERE id = ?
+ * SQL: UPDATE person SET age = 30 WHERE id = 1111
+ */
+public void insertOrUpdate() {
+	Person person = new Person();
+	person.setId(1111L);
+	person.setAge(30);
+	boolean state = person.insertOrUpdate();
+	System.out.println("状态: " + state);
+}
+
+
+
+
+
+
+
+
 public void insertOne() {
     // 插入
     User user = new User();
@@ -543,7 +640,7 @@ public void insertOne() {
     user.setAge(3);
     user.setEmail("abc@mp.com");
     assertThat(mapper.insert(user)).isGreaterThan(0);
-    // 成功直接拿会写的 ID
+    // 成功直接拿回写的 ID
     assertThat(user.getId()).isNotNull();
 }
 
@@ -553,7 +650,7 @@ public void delete() {
             .lambda().eq(User::getName, "Sandy"))).isGreaterThan(0);
 }
 
-public void cUpdate() {
+public void update() {
     assertThat(mapper.updateById(new User().setId(1L).setEmail("ab@c.c"))).isGreaterThan(0);
     assertThat(mapper.update(new User().setName("mp"),
             Wrappers.<User>lambdaUpdate()
@@ -561,7 +658,7 @@ public void cUpdate() {
                     .eq(User::getId, 2))).isGreaterThan(0);
 }
 
-public void dSelect() {
+public void select() {
     assertThat(mapper.selectById(1L).getEmail()).isEqualTo("ab@c.c");
     User user = mapper.selectOne(new QueryWrapper<User>().lambda().eq(User::getId, 2));
     assertThat(user.getName()).isEqualTo("mp");
@@ -624,8 +721,7 @@ public void tests() {
     print(plainUsers3);
 
     System.out.println("----- 自定义(sql注入) ------");
-    List<User> plainUsers4 = userMapper.selectList(new QueryWrapper<User>()
-            .apply("role_id = 2"));
+    List<User> plainUsers4 = userMapper.selectList(new QueryWrapper<User>().apply("role_id = 2"));
     print(plainUsers4);
 
     UpdateWrapper<User> uw = new UpdateWrapper<>();
