@@ -16,7 +16,6 @@ logging:
     com.baomidou.mybatisplus: INFO
     com.hitech.wechat.api.demo: DEBUG
 
-
 spring:
   datasource:
     dynamic:
@@ -76,8 +75,3 @@ spring:
 rest:
   api:
     prefix: /api/v1.1
-
-mybatis-plus:
-  global-config:
-    db-config:
-      id-type: i
