@@ -1,6 +1,7 @@
 package com.hitech.skeleton.framework.config;
 
 import com.baomidou.mybatisplus.core.parser.ISqlParser;
+import com.baomidou.mybatisplus.extension.incrementer.OracleKeyGenerator;
 import com.baomidou.mybatisplus.extension.parsers.BlockAttackSqlParser;
 import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
@@ -9,7 +10,6 @@ import com.baomidou.mybatisplus.extension.plugins.SqlExplainInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ public class MybatisPlusConfig {
 	 * @return
 	 */
 	@Bean
-	public SqlExplainInterceptor sqlExplainInterceptor(){
+	public SqlExplainInterceptor sqlExplainInterceptor() {
 
 		List<ISqlParser> sqlParserList = new ArrayList<>();
 		sqlParserList.add(new BlockAttackSqlParser());
@@ -72,4 +72,6 @@ public class MybatisPlusConfig {
 		performanceInterceptor.setMaxTime(1000);
 		return performanceInterceptor;
 	}
+
+
 }

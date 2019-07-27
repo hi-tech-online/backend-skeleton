@@ -19,6 +19,7 @@
 事务隔离级别:
 
   隔离级别是指若干个并发的事务之间的隔离程度。TransactionDefinition 接口中定义了五个表示隔离级别的常量：
+
   TransactionDefinition.ISOLATION_DEFAULT：
     这是默认值，表示使用底层数据库的默认隔离级别。对大部分数据库而言，通常这值就是TransactionDefinition.ISOLATION_READ_COMMITTED。
   TransactionDefinition.ISOLATION_READ_UNCOMMITTED：
@@ -79,7 +80,7 @@ Spring 事务回滚规则:
   因为这只有在使用基于接口的代理时它才会生效。另外， @Transactional 注解应该只被应用到 public 方法上，这是由 Spring AOP 的本质决定的。
   如果你在 protected、private 或者默认可见性的方法上使用 @Transactional 注解，这将被忽略，也不会抛出任何异常。
 
-  默认情况下，只有来自外部的方法调用才会被AOP代理捕获，也就是，类内部方法调用本类内部的其他方法并不会引起事务行为，
+  默认情况下，只有来自外部的方法调用才会被 AOP 代理捕获，也就是，类内部方法调用本类内部的其他方法并不会引起事务行为，
   即使被调用方法使用 @Transactional 注解进行修饰。
 
 Spring 分布式事务:

@@ -75,3 +75,7 @@ spring:
 rest:
   api:
     prefix: /api/v1.1
+
+
+#mybatis-plus:
+#  mapper-locations: classpath*:/mapper/**/*.xml

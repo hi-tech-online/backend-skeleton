@@ -12,5 +12,7 @@ import com.hitech.skeleton.modules.demo.entity.po.Person;
  * @since 2019-07-20
  */
 public interface IPersonService extends IService<Person> {
+	Person getById(Long id);
 
+	void addBatch();
 }

@@ -1,5 +1,7 @@
 package com.hitech.skeleton.modules.demo.entity.po;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
@@ -22,11 +24,12 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
+@KeySequence("SEQ$ORD_ID")
 public class Person {
 
 	private static final long serialVersionUID = 1L;
 
-	@TableId
+	@TableId(value = "ID", type = IdType.INPUT)
 	private Long id;
 
 	/**

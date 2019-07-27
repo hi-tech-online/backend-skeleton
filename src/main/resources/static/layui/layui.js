@@ -508,9 +508,9 @@
   Layui.prototype.event = Layui.event = function(modName, events, params, fn){
     var that = this
     ,result = null
-    ,filter = events.match(/\((.*)\)$/)||[] //提取事件过滤器字符结构，如：select(xxx)
+    ,filter = events.match(/\((.*)\)$/)||[] //提取事件过滤器字符结构，如：select(demo)
     ,eventName = (modName + '.'+ events).replace(filter[0], '') //获取事件名称，如：form.select
-    ,filterName = filter[1] || '' //获取过滤器名称,，如：xxx
+    ,filterName = filter[1] || '' //获取过滤器名称,，如：demo
     ,callback = function(_, item){
       var res = item && item.call(that, params);
       res === false && result === null && (result = false);

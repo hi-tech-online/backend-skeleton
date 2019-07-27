@@ -3,6 +3,7 @@ package com.hitech.skeleton.modules.demo.mapper;
 import com.hitech.skeleton.modules.demo.entity.po.Menu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -15,4 +16,9 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface MenuMapper extends BaseMapper<Menu> {
 
+	/**
+	 * @param text
+	 * @return
+	 */
+	Menu selectByText(@Param("text") String text);
 }

@@ -3,11 +3,13 @@ package automatically;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.po.TableFill;
+import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import com.hitech.skeleton.framework.common.BaseEntity;
@@ -125,14 +127,13 @@ public class MySQLGenerator {
             }
         };
         List<FileOutConfig> focList = new ArrayList<>();
-//        focList.add(new FileOutConfig("/templates/controller.java.ftl") {
+        // 自定义配置会被优先输出
+//        focList.add(new FileOutConfig("/automatically/mapper.xml.ftl") {
 //            @Override
 //            public String outputFile(TableInfo tableInfo) {
-//                // 自定义输入文件名称
-//                String path = projectPath + "/src/main/java/" + parentPackege.replace('.', '/') + "/" + packageConfig.getModuleName()
-//                        + "/" + tableInfo.getEntityName() + "Controller" + StringPool.DOT_JAVA;
-//                System.out.println("controller路径为: " + path);
-//                return path;
+//                // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
+//                return projectPath + "/src/main/resources/mapper/" + packageConfig.getModuleName()
+//                    + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
 //            }
 //        });
 
