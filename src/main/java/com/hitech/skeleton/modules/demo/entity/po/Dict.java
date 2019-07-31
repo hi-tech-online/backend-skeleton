@@ -1,5 +1,6 @@
 package com.hitech.skeleton.modules.demo.entity.po;
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.hitech.skeleton.framework.common.BaseEntity;
 import lombok.Data;
@@ -34,7 +35,7 @@ public class Dict extends BaseEntity {
     /**
      * 注释
      */
-    @TableField("remark")
+    @TableField(value = "remark", strategy = FieldStrategy.NOT_EMPTY)
     private String remark;
 
 
