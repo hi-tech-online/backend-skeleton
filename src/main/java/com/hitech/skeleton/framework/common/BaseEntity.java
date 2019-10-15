@@ -30,16 +30,12 @@ public class BaseEntity implements Serializable {
 	/**
 	 * 创建时间
 	 */
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@TableField(value = "gmt_create", fill = FieldFill.INSERT)
 	private LocalDateTime gmtCreate;
 
 	/**
 	 * 修改时间
 	 */
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@TableField(value = "gmt_modified", fill = FieldFill.INSERT_UPDATE)
 	private LocalDateTime gmtModified;
 
