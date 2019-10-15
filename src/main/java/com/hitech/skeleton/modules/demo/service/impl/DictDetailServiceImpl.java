@@ -1,5 +1,6 @@
 package com.hitech.skeleton.modules.demo.service.impl;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.hitech.skeleton.modules.demo.entity.po.DictDetail;
 import com.hitech.skeleton.modules.demo.mapper.DictDetailMapper;
 import com.hitech.skeleton.modules.demo.service.IDictDetailService;
@@ -19,4 +20,8 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class DictDetailServiceImpl extends ServiceImpl<DictDetailMapper, DictDetail> implements IDictDetailService {
 
+	@DS("a")
+	public void test() {
+
+	}
 }

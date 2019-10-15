@@ -1,13 +1,14 @@
 package com.hitech.skeleton.modules.demo.entity.po;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.hitech.skeleton.framework.common.BaseEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -18,11 +19,10 @@ import lombok.NoArgsConstructor;
  * @since 2019-04-28
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class Dict extends BaseEntity {
+public class Dict {
 
     private static final long serialVersionUID = 1L;
 
@@ -38,5 +38,21 @@ public class Dict extends BaseEntity {
     @TableField(value = "remark", strategy = FieldStrategy.NOT_EMPTY)
     private String remark;
 
+    /**
+     * 创建时间
+     */
+    @TableField(value = "gmt_create", fill = FieldFill.INSERT)
+    private LocalDateTime gmtCreate;
 
+    /**
+     * 修改时间
+     */
+    @TableField(value = "gmt_modified", fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime gmtModified;
+
+    /**
+     * 是否有效（1:有效, 0:失效）
+     */
+    @TableField("enabled")
+    private Boolean enabled;
 }

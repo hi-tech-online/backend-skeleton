@@ -12,10 +12,12 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -48,10 +50,14 @@ public class DictController {
 	 */
 	@PostMapping("/save")
 	@RestResult
-	@CachePut(key = "#result.id")
+	//@CachePut(key = "#result.id")
 	public Dict save(Dict dict) {
-		dictServiceImpl.save(dict);
-		return dict;
+		System.out.println("dict: " + dict);
+		System.out.println(dict.getGmtCreate());
+		System.out.println(dict.getGmtModified());
+		return null;
+		//dictServiceImpl.save(dict);
+		//return dict;
 	}
 
 	/**

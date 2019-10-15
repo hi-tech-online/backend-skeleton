@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SimpleTest {
@@ -22,18 +25,10 @@ public class SimpleTest {
 	 */
 	@Test
 	public void test() {
-		Dict dict = new Dict();
-		dict.setCode("abab");
-		//dict.setRemark("");
-		dict.setEnabled(true);
-//		System.out.println("===========================");
-//		System.out.println(dict);
-//		System.out.println("===========================");
-//		dictMapper.insert(dict);
 
-		dict.setId(12L);
-		dictMapper.updateById(dict);
 
+		LocalDateTime localDateTime = LocalDateTime.parse("2019-10-10", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		System.out.println(localDateTime.toString());
 	}
 
 }
